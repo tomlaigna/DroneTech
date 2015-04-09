@@ -20,7 +20,7 @@ int protocol_handle_cmd_debug(const char * msg);
 #define PROTOCOL_INBUF_LEN 512
 extern int fd;
 
-int select_comm(const char * portname, unsigned long long baud, const char *bt_addr);
+int select_comm(const char * portname, int baud, const char *bt_addr);
 int get_rfcomm_socket(const char* dest_addr, uint8_t channel);
 int set_interface_attribs(int fd, int speed, int parity);
 void set_blocking(int fd, int should_block);

@@ -49,7 +49,7 @@ int protocol_handle_cmd_debug(const char * msg) {
 // #################
 // Tries to open already open comm, else tries to acquire bt socket.
 // #################
-int select_comm(const char * portname, unsigned long long baud, const char * bt_addr)
+int select_comm(const char * portname, int baud, const char * bt_addr)
 {
   fd = open (portname, O_RDWR | O_NOCTTY | O_SYNC);
   if (fd < 0) {

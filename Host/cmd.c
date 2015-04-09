@@ -20,14 +20,14 @@
 
 #define DEFAULT_COMM_PORT "/dev/rfcomm0"
 #define DEFAULT_BT_ADDR "00:12:06:15:70:93"
-#define DEFAULT_BAUD 115200
+#define DEFAULT_BAUD B115200 // cfsetospeed macro definition
 
 pthread_mutex_t lock;
 
 struct opts {
   char * port;
   char * bt_addr;
-  unsigned long long baud;
+  int baud;
 } exec_arguments = {
   DEFAULT_COMM_PORT,
   DEFAULT_BT_ADDR,
@@ -46,8 +46,18 @@ void get_exec_arguments(int argc, char ** argv)
         printf("opt port: %s\n", exec_arguments.port);
         break;
       case 'B':
-        exec_arguments.baud = strtoull(optarg, NULL, 10);
+      {
+        const unsigned long long baud = strtoull(optarg, NULL, 10);
+        if (baud == 9600)
+          exec_arguments.baud = B9600;
+        else if (baud == 38400)
+          exec_arguments.baud = B38400;
+        else if (baud == 115200)
+          exec_arguments.baud = B115200;
+        else
+          fprintf(stderr, "illegal baud rate %llu\n", baud);
         printf("opt baud: %llu\n", (unsigned long long)exec_arguments.baud);
+      }
         break;
       case 'b':
         exec_arguments.bt_addr = optarg;
@@ -71,7 +81,7 @@ void get_exec_arguments(int argc, char ** argv)
       }
   }
 
-  printf("\nportname: %s\nbaudrate: %llu\nbt_addr: %s\n\n",
+  printf("\nportname: %s\nbaudrate: %d\nbt_addr: %s\n\n",
          exec_arguments.port,
          exec_arguments.baud,
          exec_arguments.bt_addr);
@@ -128,7 +138,7 @@ int main(int argc, char ** argv)
   {
     fprintf (stderr, "error creating thread %d\n", errno);
   }
-                                       
+
   while (1) {
     protocol_handle_buf();
   }
