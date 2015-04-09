@@ -1,6 +1,4 @@
 #include <Wire.h>
-#include <string.h>
-#include "vector3.h"
 #include "ctrl.h"
 #include "rfcomm.h"
 #include "esc.h"
