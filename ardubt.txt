@@ -1,0 +1,39 @@
+using ardubt - iteaduino bt v1.1:
+
+to program bt:
+  upload sketch with NO Serial.begin(int baudrate) commands
+  (
+    no jumpers, bt on DAT
+    upload sketch
+  )
+  programming
+  (
+    jumper on A, bt on CMD
+    AT commands
+  )
+  
+to communicate via BT:
+  ardu jumper on B, bt on DAT
+  linux commands:
+  (
+    Get bt mac address or name of ardu:
+    (
+      bt-device -l
+    )
+    Get services, observe channel
+    (
+      bt-device -s <mac|name>
+    )
+    configure rfcomm and connect
+    (
+      /etc/bluetooth/rfcomm.conf
+      /etc/init.d/bluetooth restart // maybe required
+      rfcomm connect rfcomm0
+    )
+    read write from /dev/rfcomm0
+    (
+      echo 'hello' > /dev/rfcomm0
+      cat /dev/rfcomm0
+    )
+  )
+  
