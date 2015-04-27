@@ -35,13 +35,15 @@ float get_proj_angle(const struct vector3f * v1, const struct vector3f * v2)
 }
 void constrain_vec(struct vector3f *v, float lim)
 {
-  if (float mod = get_mod(v) > lim)
+  float mod = get_mod(v);
+  if (mod > lim)
     mul_vec(v, lim / mod);
 }
 void constrain_vec(struct vector4f *v, float lim)
 {
   struct vector3f* v3 = (struct vector3f *)v;
-  if (float mod = get_mod(v3) > lim)
+  float mod = get_mod(v3);
+  if (mod > lim)
     mul_vec(v, lim / mod);
-  v->zf = constrain(v->zf, -lim, lim);
+  v->wf = constrain(v->wf, -lim, lim);
 }
